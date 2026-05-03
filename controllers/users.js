@@ -1,6 +1,6 @@
-import HttpErrors from 'http-errors';
+import HttpErrors from "http-errors";
 
-import Users from '../models/users.js';
+import Users from "../models/users.js";
 
 export default {
   async login(req, res, next) {
@@ -9,10 +9,10 @@ export default {
 
       const user = await Users.findByEmail(email);
 
-      if (!user || user.password !== Users.hashPassword(password)) {
+      if (!user || (user.password !== Users.hashPassword(password))) {
         throw new HttpErrors(401, {
           errors: {
-            email: 'Invalid email or password',
+            email: "Invalid email or password",
           }
         });
       }
@@ -39,7 +39,7 @@ export default {
       if (await Users.checkEmailUnique(email)) {
         throw new HttpErrors(422, {
           errors: {
-            email: 'Email is already in use',
+            email: 'Email is already in use!',
           },
         });
       }
@@ -48,7 +48,7 @@ export default {
         name,
         email,
         password: Users.hashPassword(password),
-        age,
+        age
       });
 
       delete user.password;
@@ -83,11 +83,11 @@ export default {
       const user = await Users.update(
         req.userId,
         { name, age },
-      );
+      )
 
       res.json({
         user,
-      });
+      })
     } catch (e) {
       next(e);
     }

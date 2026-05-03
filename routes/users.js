@@ -3,7 +3,7 @@ import { Router } from 'express';
 import controller from '../controllers/users.js';
 
 import validation from '../middlewares/validation.js';
-import schema from '../middlewares/schemas/users.schema.js';
+import schema from '../middlewares/schemas/users.shema.js';
 import authorization from "../middlewares/authorization.js";
 
 const router = Router();

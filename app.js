@@ -14,13 +14,16 @@ const { PORT } = process.env;
 app.set('views', path.resolve('views'));
 app.set('view engine', 'ejs');
 
+// middlewares
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve('public')));
 
+// routes
 app.use(routes);
 
+// error handlers
 app.use(errorHandler.notFound);
 app.use(errorHandler.errors);
 

@@ -1,5 +1,5 @@
-import HttpErrors from 'http-errors';
-import Users from '../models/users.js';
+import HttpErrors from "http-errors";
+import Users from '../models/users.js'
 
 export default (req, res, next) => {
   try {
@@ -20,7 +20,7 @@ export default (req, res, next) => {
     req.userId = decryptData?.userId;
 
     next();
-  } catch (e) {
+  } catch (err) {
     next(new HttpErrors(401));
   }
 }

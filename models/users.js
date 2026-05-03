@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import md5 from 'md5';
 import path from 'path';
-import { vd as uuidV4 } from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
 import CryptoJS from 'crypto-js';
 
 const {
@@ -19,23 +19,24 @@ export async function readJSON() {
   try {
     const data = await fs.readFile(authorsFile, 'utf8');
     return JSON.parse(data);
-  } catch (e) {
+  } catch {
     return [];
   }
 }
 
 export async function writeJSON(data) {
   try {
+    console.log(authorsFile)
     await fs.writeFile(authorsFile, JSON.stringify(data, null, 2));
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 }
 
 export async function findById(id) {
   const users = await readJSON();
 
-  return users.find(user => user.id === id);
+  return users.find(user => user.id === id) || null;
 }
 
 export async function findByEmail(email) {
@@ -56,11 +57,11 @@ export async function create(data) {
   const newUser = {
     ...data,
     id: uuidV4(),
-  };
+  }
 
   users.push(newUser);
 
-  await writeJSON(newUser);
+  await writeJSON(users);
 
   return newUser;
 }
@@ -72,7 +73,7 @@ export async function update(id, data) {
 
   if (userIndex > -1) {
     users[userIndex] = { ...(users[userIndex] || {}), ...data, };
-  }else {
+  } else {
     return null;
   }
 
@@ -107,8 +108,8 @@ export default {
   update,
   encrypt,
   decrypt,
-  findByEmail,
   findById,
+  findByEmail,
   hashPassword,
   checkEmailUnique,
 }
