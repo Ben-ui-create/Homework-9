@@ -5,11 +5,9 @@ import authorize from '../middlewares/authorization.js';
 
 const router = Router();
 
-// Public routes
 router.get('/', controller.getAllPosts);
 router.get('/:id', controller.getPost);
 
-// Protected routes (require authentication)
 router.post('/', authorize, controller.createPost);
 router.put('/:id', authorize, controller.updatePost);
 router.delete('/:id', authorize, controller.deletePost);
